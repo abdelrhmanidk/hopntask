@@ -4,14 +4,11 @@ HopnTask is a modern expense tracking application that helps you manage your exp
 
 ## Screenshots
 
-<div align="center">
-  <img src="images/IMG_7700.PNG" alt="Home Screen" width="250"/>
-  <img src="images/IMG_7702.PNG" alt="Add Expense" width="250"/>
-  <img src="images/IMG_7709.PNG" alt="Category Selection" width="250"/>
-  <br/>
-  <img src="images/IMG_7710.PNG" alt="Expense Details" width="250"/>
-  <img src="images/IMG_7711.PNG" alt="Settings" width="250"/>
-</div>
+![Home Screen](./Images/IMG_7700.PNG)
+![Add Expense](./Images/IMG_7702.PNG)
+![Category Selection](./Images/IMG_7709.PNG)
+![Expense Details](./Images/IMG_7710.PNG)
+![Settings](./Images/IMG_7711.PNG)
 
 ## Technical Architecture
 
