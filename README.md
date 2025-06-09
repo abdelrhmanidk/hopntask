@@ -15,67 +15,103 @@ HopnTask is a modern expense tracking application that helps you manage your exp
 
 ## Technical Architecture
 
-### Backend Architecture
+### Backend Implementation
 
-The backend is built using FastAPI and implements a sophisticated RAG (Retrieval-Augmented Generation) system for intelligent expense management and natural language interaction.
+The backend is built using FastAPI and implements a RAG (Retrieval-Augmented Generation) system for intelligent expense management and natural language interaction.
 
 #### Core Components:
 
-1. **FastAPI Backend**
-   - High-performance async API server
-   - RESTful endpoints for expense management
-   - WebSocket support for real-time chat
-   - Automatic API documentation with Swagger UI
-   - Built-in request validation and error handling
+1. **FastAPI Backend** (`main.py`)
+   - RESTful endpoints:
+     - `/ai/chat` - Chat interface for expense queries
+     - `/receipts/store` - Store new receipts with metadata
+     - `/ai/chat/clear` - Clear chat history
+     - `/health` - Health check endpoint
+   - CORS middleware for cross-origin requests
+   - Request validation using Pydantic models
+   - Comprehensive error handling and logging
 
-2. **RAG System (Retrieval-Augmented Generation)**
+2. **RAG System** (`rag_service.py`)
    - **ChromaDB Integration**
-     - Vector database for semantic search of receipts
-     - Efficient storage and retrieval of expense embeddings
-     - Real-time similarity search for expense queries
-     - Persistent storage of receipt metadata and vectors
+     - Persistent client with local storage (`./chroma_store`)
+     - Collection: "receipts" for storing expense data
+     - Vector embeddings using `all-MiniLM-L6-v2` model
+     - Metadata storage for receipts including:
+       - Title
+       - Date
+       - Total amount
+       - Timestamp
    
-   - **LLM Service**
-     - Integration with advanced language models
-     - Context-aware response generation
-     - Natural language understanding of expense queries
-     - Dynamic prompt engineering for accurate responses
+   - **Context Retrieval**
+     - Semantic search using vector embeddings
+     - Configurable number of results (default: 3)
+     - Returns formatted context with receipt details
+     - Source tracking for retrieved documents
 
-3. **Intelligent Chat Interface**
-   - Natural language processing of user queries
-   - Context-aware conversation management
-   - Semantic search across expense history
-   - Example queries:
-     - "Show me all expenses from last month"
-     - "What was my biggest expense in the food category?"
-     - "Find receipts from Starbucks"
-     - "Summarize my spending patterns"
+3. **LLM Service** (`llm_service.py`)
+   - Integration with GitHub's inference API
+   - Model: `openai/gpt-4.1`
+   - Context-aware responses using:
+     - RAG-retrieved receipt context
+     - Conversation history
+   - Specialized system prompt for expense analysis
+   - Temperature: 0.7 for balanced creativity/accuracy
 
-4. **OCR and Receipt Processing**
-   - Automated receipt text extraction
-   - Intelligent data parsing and categorization
-   - Integration with RAG system for context-aware processing
-   - Support for multiple receipt formats and languages
+4. **Memory Service** (`memory_service.py`)
+   - Conversation history management
+   - Uses `ConversationBufferMemory` from LangChain
+   - Maintains chat history with:
+     - User messages
+     - AI responses
+   - Methods for:
+     - Adding messages
+     - Retrieving history
+     - Clearing conversation
 
 ### Data Flow
 
-1. **Receipt Processing Pipeline**
+1. **Receipt Storage Flow**
    ```
-   Receipt Image → OCR Service → Text Extraction → 
-   RAG Processing → ChromaDB Storage → LLM Context
-   ```
-
-2. **Chat Query Pipeline**
-   ```
-   User Query → LLM Processing → ChromaDB Retrieval → 
-   Context Augmentation → Response Generation
+   Receipt Data → FastAPI Endpoint → 
+   ChromaDB Storage (with metadata) → 
+   Vector Embedding Generation
    ```
 
-3. **Expense Management Flow**
+2. **Chat Query Flow**
    ```
-   Expense Creation → Data Validation → 
-   ChromaDB Indexing → RAG System Update
+   User Query → LLM Service → 
+   RAG Context Retrieval → 
+   Memory Service (History) → 
+   Context-Augmented Response
    ```
+
+### Environment Setup
+
+Required environment variables:
+```env
+GITHUB_TOKEN=your_github_token  # For LLM API access
+```
+
+### API Endpoints
+
+1. **Chat Interface** (`POST /ai/chat`)
+   - Request: `{ "query": "string" }`
+   - Response: `{ "response": "string" }`
+   - Uses RAG and conversation history
+
+2. **Receipt Storage** (`POST /receipts/store`)
+   - Stores receipt data with:
+     - Title
+     - Total
+     - Date
+     - Items list
+     - Raw OCR text
+   - Automatically generates embeddings
+   - Stores in ChromaDB with metadata
+
+3. **Chat Management** (`POST /ai/chat/clear`)
+   - Clears conversation history
+   - Resets memory service
 
 ### Key Features
 
@@ -106,7 +142,6 @@ The backend is built using FastAPI and implements a sophisticated RAG (Retrieval
 - 🔍 AI-powered expense search
 - 📈 Expense statistics and insights
 - 📤 Data export to CSV
-- 💾 Local storage with ChromaDB backup
 
 ## Prerequisites
 
