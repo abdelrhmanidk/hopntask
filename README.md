@@ -13,6 +13,90 @@ HopnTask is a modern expense tracking application that helps you manage your exp
   <img src="images/IMG_7711.PNG" alt="Settings" width="250"/>
 </div>
 
+## Technical Architecture
+
+### Backend Architecture
+
+The backend is built using FastAPI and implements a sophisticated RAG (Retrieval-Augmented Generation) system for intelligent expense management and natural language interaction.
+
+#### Core Components:
+
+1. **FastAPI Backend**
+   - High-performance async API server
+   - RESTful endpoints for expense management
+   - WebSocket support for real-time chat
+   - Automatic API documentation with Swagger UI
+   - Built-in request validation and error handling
+
+2. **RAG System (Retrieval-Augmented Generation)**
+   - **ChromaDB Integration**
+     - Vector database for semantic search of receipts
+     - Efficient storage and retrieval of expense embeddings
+     - Real-time similarity search for expense queries
+     - Persistent storage of receipt metadata and vectors
+   
+   - **LLM Service**
+     - Integration with advanced language models
+     - Context-aware response generation
+     - Natural language understanding of expense queries
+     - Dynamic prompt engineering for accurate responses
+
+3. **Intelligent Chat Interface**
+   - Natural language processing of user queries
+   - Context-aware conversation management
+   - Semantic search across expense history
+   - Example queries:
+     - "Show me all expenses from last month"
+     - "What was my biggest expense in the food category?"
+     - "Find receipts from Starbucks"
+     - "Summarize my spending patterns"
+
+4. **OCR and Receipt Processing**
+   - Automated receipt text extraction
+   - Intelligent data parsing and categorization
+   - Integration with RAG system for context-aware processing
+   - Support for multiple receipt formats and languages
+
+### Data Flow
+
+1. **Receipt Processing Pipeline**
+   ```
+   Receipt Image → OCR Service → Text Extraction → 
+   RAG Processing → ChromaDB Storage → LLM Context
+   ```
+
+2. **Chat Query Pipeline**
+   ```
+   User Query → LLM Processing → ChromaDB Retrieval → 
+   Context Augmentation → Response Generation
+   ```
+
+3. **Expense Management Flow**
+   ```
+   Expense Creation → Data Validation → 
+   ChromaDB Indexing → RAG System Update
+   ```
+
+### Key Features
+
+- **AI-Powered Expense Management**
+  - Intelligent receipt categorization
+  - Natural language expense queries
+  - Context-aware expense analysis
+  - Automated data extraction
+
+- **Smart Search and Retrieval**
+  - Semantic search across expenses
+  - Similar receipt finding
+  - Category-based filtering
+  - Date-range queries
+
+- **Interactive Chat Interface**
+  - Natural language interaction
+  - Context-aware responses
+  - Expense history exploration
+  - Spending pattern analysis
+
 ## Features
 
 - 📱 Modern Flutter UI with iOS-style design
@@ -86,27 +170,29 @@ hopntask/
 
 ### Backend Setup
 
-1. Create and activate a Python virtual environment:
+1. **Environment Setup**
    ```bash
    cd backend
    python -m venv venv
-   
-   # On macOS/Linux
-   source venv/bin/activate
-   
-   # On Windows
-   .\venv\Scripts\activate
-   ```
-
-2. Install Python dependencies:
-   ```bash
+   source venv/bin/activate  # On Windows: .\venv\Scripts\activate
    pip install -r requirements.txt
    ```
 
-3. Start the backend server:
-   ```bash
-   uvicorn app.main:app --reload --port 8007
+2. **Required Environment Variables**
+   ```env
+   OPENAI_API_KEY=your_openai_api_key
+   CHROMA_DB_PATH=path_to_chroma_db
+   MODEL_NAME=gpt-3.5-turbo  # or your preferred model
    ```
+
+3. **Starting the Backend**
+   ```bash
+   uvicorn app.main:app --reload
+   ```
+
+4. **API Documentation**
+   - Swagger UI: `http://localhost:8000/docs`
+   - ReDoc: `http://localhost:8000/redoc`
 
 ### Running the App
 
