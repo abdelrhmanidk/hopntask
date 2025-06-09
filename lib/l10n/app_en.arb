@@ -1,0 +1,30 @@
+{
+    "chat": "Chat",
+    "error": "Error",
+    "ok": "OK",
+    "clearChatHistory": "Clear Chat History",
+    "clearChatHistoryConfirmation": "Are you sure you want to clear all chat history?",
+    "clear": "Clear",
+    "cancel": "Cancel",
+    "failedToClearChat": "Failed to clear chat history: {error}",
+    "@failedToClearChat": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "failedToSendMessage": "Failed to send message: {error}",
+    "@failedToSendMessage": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "noMessagesYet": "No messages yet",
+    "startConversation": "Start a conversation with your AI assistant",
+    "typeMessage": "Type a message...",
+    "today": "Today",
+    "yesterday": "Yesterday"
+} 

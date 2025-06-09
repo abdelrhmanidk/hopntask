@@ -1,0 +1,30 @@
+{
+    "chat": "المحادثة",
+    "error": "خطأ",
+    "ok": "موافق",
+    "clearChatHistory": "مسح سجل المحادثة",
+    "clearChatHistoryConfirmation": "هل أنت متأكد أنك تريد مسح كل سجل المحادثة؟",
+    "clear": "مسح",
+    "cancel": "إلغاء",
+    "failedToClearChat": "فشل في مسح سجل المحادثة: {error}",
+    "@failedToClearChat": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "failedToSendMessage": "فشل في إرسال الرسالة: {error}",
+    "@failedToSendMessage": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "noMessagesYet": "لا توجد رسائل بعد",
+    "startConversation": "ابدأ محادثة مع المساعد الذكي",
+    "typeMessage": "اكتب رسالة...",
+    "today": "اليوم",
+    "yesterday": "الأمس"
+} 
